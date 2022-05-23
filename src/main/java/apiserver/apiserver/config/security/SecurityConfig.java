@@ -20,17 +20,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .httpBasic().disable() // 1
-                .formLogin().disable() // 2
-                .csrf().disable() // 3
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 4
+                .httpBasic().disable()
+                .formLogin().disable()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll(); // 5
+                .antMatchers("/**").permitAll();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder(); // 6
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }
