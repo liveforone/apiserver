@@ -20,6 +20,18 @@ public class ExceptionAdvice {
         return Response.failure(-1000, "오류가 발생하였습니다.");
     }
 
+    @ExceptionHandler(AuthenticationEntryPointException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public Response authenticationEntryPoint() {
+        return Response.failure(-1001, "인증되지 않은 사용자입니다.");
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public Response accessDeniedException() {
+        return Response.failure(-1002, "접근이 거부되었습니다.");
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Response methodArgumentNotValidException(MethodArgumentNotValidException e) {
@@ -54,17 +66,5 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Response roleNotFoundException() { // 7
         return Response.failure(-1008, "요청한 권한 등급을 찾을 수 없습니다.");
-    }
-
-    @ExceptionHandler(AuthenticationEntryPointException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public Response authenticationEntryPoint() {
-        return Response.failure(-1001, "인증되지 않은 사용자입니다.");
-    }
-
-    @ExceptionHandler(AccessDeniedException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    public Response accessDeniedException() {
-        return Response.failure(-1002, "접근이 거부되었습니다.");
     }
 }

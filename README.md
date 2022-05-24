@@ -111,8 +111,16 @@ createAccessTokenTest와 동일
 <h3>로그인시 인증 및 인가</h3>
 <pre>
 - 클라이언트가 API를 요청한다. 이 때, 로그인해서 발급받은 액세스 토큰을 HTTP Authorization 헤더에 담아서 보내준다.
-- 필터를 거친다. 우리가 작성한 JwtAuthenticationFilter에 도착한다. 필터에서는 Authorization 헤더에서 토큰을 검증하고, 토큰으로 요청한 사용자 정보를 데이터베이스에서 조회해서 SecurityContext에 저장한다.
+- 필터를 거친다. 우리가 작성한 JwtAuthenticationFilter에 도착한다. 
+- 필터에서는 Authorization 헤더에서 토큰을 검증하고, 토큰으로 요청한 사용자 정보를 데이터베이스에서 조회해서 SecurityContext에 저장한다.
 - 요청한 URL에 따라서 접근 허용 여부를 검사한다. 
 - 인증되지 않은 사용자라면, 401 응답을 보내준다. (실제로는 401 응답을 내려주는 곳으로 리다이렉트)
 - 요청한 자원에 접근 권한이 없다면, 403 응답을 보내준다. (실제로는 403 응답을 내려주는 곳으로 리다이렉트)
+<hr>
+사용자 요청 -> 필터 -> 
+JwtAuthenticationFilter 토큰을 통해 컨텍스트에 사용자 정보 등록 -> <- CustomUserDetailsService, TokenService
+요청과 접근 정책에 따른 검사 -> <- Guard -> <- AuthHelper
+검증실패시 CustomAuthenticationEntryPoint, CustomAccessDeniedHandler 작동 후 /exception으로 리다이렉트 -> Exception Controller로 요청, ExceptionAdvice 동작하여 응답
+컨트롤러 요청 도달
 </pre>
+
