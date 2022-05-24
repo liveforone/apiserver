@@ -1,4 +1,4 @@
-package apiserver.apiserver.controller.response;
+package apiserver.apiserver.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;

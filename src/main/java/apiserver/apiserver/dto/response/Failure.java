@@ -1,4 +1,4 @@
-package apiserver.apiserver.controller.response;
+package apiserver.apiserver.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

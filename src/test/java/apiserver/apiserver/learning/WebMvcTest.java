@@ -1,6 +1,6 @@
 package apiserver.apiserver.learning;
 
-import apiserver.apiserver.controller.response.Response;
+import apiserver.apiserver.dto.response.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

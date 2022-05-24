@@ -1,6 +1,6 @@
 package apiserver.apiserver.controller.sign;
 
-import apiserver.apiserver.controller.response.Response;
+import apiserver.apiserver.dto.response.Response;
 import apiserver.apiserver.dto.sign.SignInRequest;
 import apiserver.apiserver.dto.sign.SignUpRequest;
 import apiserver.apiserver.service.sign.SignService;
