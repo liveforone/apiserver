@@ -4,6 +4,32 @@
 DB는 테스트만 할 것이고 뷰단을 띄우지 않기 때문에 ddl-auto:create로 설정
 </pre>
 
+<h2>post man 으로 api 요청</h2>
+<pre>
+- 회원가입- 
+/api/sign-up
+body ->
+"email" : "email@email.com",
+"password" : "123456a!",
+"username" : "username",
+"nickname" : "nickname"
+<hr>
+- 로그인 -
+/api/sign-in
+body -> 
+"email" : "email@email.com",
+"password" : "123456a!"
+이때 accessToken과 RefreshToken이 발급됨
+refreshToken을 복사하고 맨 앞의 Bearer
+을 제외한 나머지 모두를(""제외) 복사한다.
+<hr>
+- accessToken 재발급 -
+/api/refresh-token
+Authorization -> type = Bearer Token
+Token -> 위에 복사한 값 입력
+어세스 토큰이 재발급 된다.
+</pre>
+
 <h3>로그인 및 요구사항</h3>
 <pre>
 <strong>jwt 즉 json web token 방식으로 로그인을 진행한다.</strong>
