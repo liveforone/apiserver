@@ -1,5 +1,6 @@
 package apiserver.apiserver.service.sign;
 
+import apiserver.apiserver.config.token.TokenHelper;
 import apiserver.apiserver.dto.sign.RefreshTokenResponse;
 import apiserver.apiserver.dto.sign.SignInRequest;
 import apiserver.apiserver.dto.sign.SignInResponse;
@@ -23,8 +24,15 @@ public class SignService {
     private final MemberRepository memberRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final TokenService tokenService;
+    private final TokenHelper accessTokenHelper;
+    private final TokenHelper refreshTokenHelper;
 
+
+    private void validateRefreshToken(String rToken) {
+        if(!refreshTokenHelper.validate(rToken)) {
+            throw new AuthenticationEntryPointException();
+        }
+    }
 
     private void validateSignUpInfo(SignUpRequest req) {
         if(memberRepository.existsByEmail(req.getEmail()))
@@ -41,12 +49,6 @@ public class SignService {
 
     private String createSubject(Member member) {
         return String.valueOf(member.getId());
-    }
-
-    private void validateRefreshToken(String rToken) {
-        if(!tokenService.validateRefreshToken(rToken)) {
-            throw new AuthenticationEntryPointException();
-        }
     }
 
     //==method==//
@@ -66,19 +68,20 @@ public class SignService {
     /*
     SignInRequest로 전달받은 email로 Member를 조회한 뒤, 비밀번호 검증이 통과되었다면 액세스 토큰과 리프레시 토큰을 발급해줍니다.
      */
+    @Transactional(readOnly = true)
     public SignInResponse signIn(SignInRequest req) {
-        Member member = memberRepository.findByEmail(req.getEmail()).orElseThrow(MemberNotFoundException::new);
+        Member member = memberRepository.findByEmail(req.getEmail()).orElseThrow(LoginFailureException::new);
         validatePassword(req, member);
         String subject = createSubject(member);
-        String accessToken = tokenService.createAccessToken(subject);
-        String refreshToken = tokenService.createRefreshToken(subject);
+        String accessToken = accessTokenHelper.createToken(subject);
+        String refreshToken = refreshTokenHelper.createToken(subject);
         return new SignInResponse(accessToken, refreshToken);
     }
 
     public RefreshTokenResponse refreshToken(String rToken) {
         validateRefreshToken(rToken);
-        String subject = tokenService.extractRefreshTokenSubject(rToken);
-        String accessToken = tokenService.createAccessToken(subject);
+        String subject = refreshTokenHelper.extractSubject(rToken);
+        String accessToken = accessTokenHelper.createToken(subject);
         return new RefreshTokenResponse(accessToken);
     }
 }
