@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import static apiserver.apiserver.factory.dto.SignInRequestFactory.createSignInRequest;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -126,15 +127,15 @@ public class MemberControllerIntegrationTest {
     3xx 상태 코드를 응답받아서 /exception/access-denied로 리다이렉트됩니다.
      */
     @Test
-    void deleteAccessDeniedByRefreshTokenTest() throws Exception {
+    void deleteUnauthorizedByRefreshTokenTest() throws Exception {
         // given
         Member member = memberRepository.findByEmail(initDB.getMember1Email()).orElseThrow(MemberNotFoundException::new);
-        SignInResponse signInRes = signService.signIn(new SignInRequest(initDB.getMember1Email(), initDB.getPassword()));
+        SignInResponse signInRes = signService.signIn(createSignInRequest(initDB.getMember1Email(), initDB.getPassword()));
 
         // when, then
         mockMvc.perform(
                         delete("/api/members/{id}", member.getId()).header("Authorization", signInRes.getRefreshToken()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/exception/access-denied"));
+                .andExpect(redirectedUrl("/exception/entry-point"));
     }
 }

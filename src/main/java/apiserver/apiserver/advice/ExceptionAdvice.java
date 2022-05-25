@@ -5,6 +5,7 @@ import apiserver.apiserver.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -66,5 +67,17 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Response roleNotFoundException() { // 7
         return Response.failure(-1008, "요청한 권한 등급을 찾을 수 없습니다.");
+    }
+
+    /*
+    HTTP Authorization 헤더에 리프레시 토큰을 전달하여, SignService.refreshToken을 수행합니다.
+    파라미터에 설정된 @RequestHeader는 required 옵션의 기본 설정 값이 true이기 때문에,
+    이 헤더 값이 전달되지 않았을 때 예외가 발생하게 됩니다.
+    이 때 발생하는 예외가 MissingRequestHeaderException 입니다.
+     */
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Response missingRequestHeaderException(MissingRequestHeaderException e) {
+        return Response.failure(-1009, e.getHeaderName() + " 요청 헤더가 누락되었습니다.");
     }
 }

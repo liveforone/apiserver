@@ -1,5 +1,6 @@
 package apiserver.apiserver.service.sign;
 
+import apiserver.apiserver.dto.sign.RefreshTokenResponse;
 import apiserver.apiserver.dto.sign.SignInRequest;
 import apiserver.apiserver.dto.sign.SignInResponse;
 import apiserver.apiserver.dto.sign.SignUpRequest;
@@ -17,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class SignService {
 
     private final MemberRepository memberRepository;
@@ -41,6 +41,12 @@ public class SignService {
 
     private String createSubject(Member member) {
         return String.valueOf(member.getId());
+    }
+
+    private void validateRefreshToken(String rToken) {
+        if(!tokenService.validateRefreshToken(rToken)) {
+            throw new AuthenticationEntryPointException();
+        }
     }
 
     //==method==//
@@ -67,5 +73,12 @@ public class SignService {
         String accessToken = tokenService.createAccessToken(subject);
         String refreshToken = tokenService.createRefreshToken(subject);
         return new SignInResponse(accessToken, refreshToken);
+    }
+
+    public RefreshTokenResponse refreshToken(String rToken) {
+        validateRefreshToken(rToken);
+        String subject = tokenService.extractRefreshTokenSubject(rToken);
+        String accessToken = tokenService.createAccessToken(subject);
+        return new RefreshTokenResponse(accessToken);
     }
 }

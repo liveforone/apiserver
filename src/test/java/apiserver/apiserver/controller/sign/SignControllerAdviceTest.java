@@ -3,10 +3,7 @@ package apiserver.apiserver.controller.sign;
 import apiserver.apiserver.advice.ExceptionAdvice;
 import apiserver.apiserver.dto.sign.SignInRequest;
 import apiserver.apiserver.dto.sign.SignUpRequest;
-import apiserver.apiserver.exception.LoginFailureException;
-import apiserver.apiserver.exception.MemberEmailAlreadyExistsException;
-import apiserver.apiserver.exception.MemberNicknameAlreadyExistsException;
-import apiserver.apiserver.exception.RoleNotFoundException;
+import apiserver.apiserver.exception.*;
 import apiserver.apiserver.service.sign.SignService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +21,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.mockito.ArgumentMatchers.anyString;
 
 @ExtendWith(MockitoExtension.class)
 public class SignControllerAdviceTest {
@@ -121,5 +120,27 @@ public class SignControllerAdviceTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void refreshTokenAuthenticationEntryPointException() throws Exception { // 1
+        // given
+        given(signService.refreshToken(anyString())).willThrow(AuthenticationEntryPointException.class);
+
+        // when, then
+        mockMvc.perform(
+                        post("/api/refresh-token")
+                                .header("Authorization", "refreshToken"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(-1001));
+    }
+
+    @Test
+    void refreshTokenMissingRequestHeaderException() throws Exception { // 2
+        // given, when, then
+        mockMvc.perform(
+                        post("/api/refresh-token"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(-1009));
     }
 }

@@ -15,14 +15,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AuthHelper {
 
-    private CustomUserDetails getUserDetails() {
-        return (CustomUserDetails) getAuthentication().getPrincipal();
-    }
-
-    private Authentication getAuthentication() {
-        return SecurityContextHolder.getContext().getAuthentication();
-    }
-
     public boolean isAuthenticated() {
         return getAuthentication() instanceof CustomAuthenticationToken &&
                 getAuthentication().isAuthenticated();
@@ -40,11 +32,11 @@ public class AuthHelper {
                 .collect(Collectors.toSet());
     }
 
-    public boolean isAccessTokenType() {
-        return "access".equals(((CustomAuthenticationToken) getAuthentication()).getType());
+    private CustomUserDetails getUserDetails() {
+        return (CustomUserDetails) getAuthentication().getPrincipal();
     }
 
-    public boolean isRefreshTokenType() {
-        return "refresh".equals(((CustomAuthenticationToken) getAuthentication()).getType());
+    private Authentication getAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
     }
 }

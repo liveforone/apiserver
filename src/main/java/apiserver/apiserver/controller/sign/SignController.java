@@ -32,4 +32,10 @@ public class SignController {
     public Response signIn(@Valid @RequestBody SignInRequest req) {
         return Response.success(signService.signIn(req));
     }
+
+    @PostMapping("/api/refresh-token")
+    @ResponseStatus(HttpStatus.OK)
+    public Response refreshToken(@RequestHeader(value = "Authorization") String refreshToken) {
+        return Response.success(signService.refreshToken(refreshToken));
+    }
 }

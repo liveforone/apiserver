@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static apiserver.apiserver.factory.dto.RefreshTokenResponseFactory.createRefreshTokenResponse;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -98,5 +99,18 @@ contentType으로 APPLICATION_JSON 타입을 지정해줍니다.
                                 .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.result").doesNotExist());
+    }
+
+    @Test
+    void refreshTokenTest() throws Exception {
+        // given
+        given(signService.refreshToken("refreshToken")).willReturn(createRefreshTokenResponse("accessToken"));
+
+        // when, then
+        mockMvc.perform(
+                        post("/api/refresh-token")
+                                .header("Authorization", "refreshToken"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.data.accessToken").value("accessToken"));
     }
 }

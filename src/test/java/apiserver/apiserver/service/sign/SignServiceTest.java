@@ -1,5 +1,6 @@
 package apiserver.apiserver.service.sign;
 
+import apiserver.apiserver.dto.sign.RefreshTokenResponse;
 import apiserver.apiserver.dto.sign.SignInRequest;
 import apiserver.apiserver.dto.sign.SignInResponse;
 import apiserver.apiserver.dto.sign.SignUpRequest;
@@ -128,5 +129,33 @@ class SignServiceTest {
         // when, then
         assertThatThrownBy(() -> signService.signIn(new SignInRequest("email", "password")))
                 .isInstanceOf(LoginFailureException.class);
+    }
+
+    @Test
+    void refreshTokenTest() {
+        // given
+        String refreshToken = "refreshToken";
+        String subject = "subject";
+        String accessToken = "accessToken";
+        given(tokenService.validateRefreshToken(refreshToken)).willReturn(true);
+        given(tokenService.extractRefreshTokenSubject(refreshToken)).willReturn(subject);
+        given(tokenService.createAccessToken(subject)).willReturn(accessToken);
+
+        // when
+        RefreshTokenResponse res = signService.refreshToken(refreshToken);
+
+        // then
+        assertThat(res.getAccessToken()).isEqualTo(accessToken);
+    }
+
+    @Test
+    void refreshTokenExceptionByInvalidTokenTest() {
+        // given
+        String refreshToken = "refreshToken";
+        given(tokenService.validateRefreshToken(refreshToken)).willReturn(false);
+
+        // when, then
+        assertThatThrownBy(() -> signService.refreshToken(refreshToken))
+                .isInstanceOf(AuthenticationEntryPointException.class);
     }
 }
