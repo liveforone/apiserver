@@ -183,3 +183,17 @@ SignService가 토큰 설정 정보를 다루는 방식에 대해서 직접적�
 이를 수행하기 위해, @Bean 어노테이션으로 직접적으로 스프링 빈에 등록하는 방식을 택하게 되었습니다.
 </pre>
 
+<h3>SwaggerConfig</h3>
+<pre>
+SwaggerConfig에서 @Import(BeanValidatorPluginsConfiguration.class)를 해주었습니다.
+이를 이용하면 @Valid가 선언된 DTO 객체들의 bean validation 조건을 문서화할 수 있습니다.
+</pre>
+
+<h3>swagger 사용</h3>
+<pre>
+/swagger-ui/index.html
+로 접속하면 된다. postman과 비슷
+잘모를땐
+https://kukekyakya.tistory.com/540?category=1025994
+링크 참조
+</pre>

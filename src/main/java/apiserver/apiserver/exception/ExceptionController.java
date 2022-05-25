@@ -2,7 +2,9 @@ package apiserver.apiserver.exception;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
+@ApiIgnore  //API 문서를 만들지않음
 @RestController
 public class ExceptionController {
 
