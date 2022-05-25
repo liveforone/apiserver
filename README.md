@@ -1,10 +1,10 @@
-<h1>게시판 api 서버</h1>
+<h1><mark>&lt;게시판 api 서버&gt;</mark></h1>
 <pre>
 뷰단은 제작하지 않는다. 즉 테스트코드와 일반 코드로만 이루어짐.
 DB는 테스트만 할 것이고 뷰단을 띄우지 않기 때문에 ddl-auto:create로 설정
 </pre>
 
-<h2>post man 으로 api 요청</h2>
+<h2><mark>&lt;post man 으로 api 요청&gt;</mark></h2>
 <pre>
 - 회원가입- 
 /api/sign-up
