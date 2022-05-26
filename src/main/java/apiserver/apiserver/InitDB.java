@@ -4,8 +4,8 @@ import apiserver.apiserver.entity.member.Member;
 import apiserver.apiserver.entity.member.Role;
 import apiserver.apiserver.entity.member.RoleType;
 import apiserver.apiserver.exception.RoleNotFoundException;
-import apiserver.apiserver.repository.member.MemberRepository;
-import apiserver.apiserver.repository.role.RoleRepository;
+import apiserver.apiserver.entity.repository.member.MemberRepository;
+import apiserver.apiserver.entity.repository.role.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;
 

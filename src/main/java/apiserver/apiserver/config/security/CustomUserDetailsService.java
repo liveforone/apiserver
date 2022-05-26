@@ -1,7 +1,7 @@
 package apiserver.apiserver.config.security;
 
 import apiserver.apiserver.entity.member.Member;
-import apiserver.apiserver.repository.member.MemberRepository;
+import apiserver.apiserver.entity.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;

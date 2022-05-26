@@ -3,7 +3,7 @@ package apiserver.apiserver.service.member;
 import apiserver.apiserver.dto.member.MemberDto;
 import apiserver.apiserver.entity.member.Member;
 import apiserver.apiserver.exception.MemberNotFoundException;
-import apiserver.apiserver.repository.member.MemberRepository;
+import apiserver.apiserver.entity.repository.member.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -13,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;

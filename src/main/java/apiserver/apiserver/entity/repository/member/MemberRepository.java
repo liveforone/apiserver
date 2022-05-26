@@ -1,4 +1,4 @@
-package apiserver.apiserver.repository.member;
+package apiserver.apiserver.entity.repository.member;
 
 import apiserver.apiserver.entity.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;

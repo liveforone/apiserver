@@ -2,15 +2,13 @@ package apiserver.apiserver.service.sign;
 
 import apiserver.apiserver.config.token.TokenHelper;
 import apiserver.apiserver.dto.sign.RefreshTokenResponse;
-import apiserver.apiserver.dto.sign.SignInRequest;
 import apiserver.apiserver.dto.sign.SignInResponse;
 import apiserver.apiserver.dto.sign.SignUpRequest;
-import apiserver.apiserver.entity.member.Member;
 import apiserver.apiserver.entity.member.Role;
 import apiserver.apiserver.entity.member.RoleType;
 import apiserver.apiserver.exception.*;
-import apiserver.apiserver.repository.member.MemberRepository;
-import apiserver.apiserver.repository.role.RoleRepository;
+import apiserver.apiserver.entity.repository.member.MemberRepository;
+import apiserver.apiserver.entity.repository.role.RoleRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +23,6 @@ import static apiserver.apiserver.factory.dto.SignInRequestFactory.createSignInR
 import static apiserver.apiserver.factory.dto.SignUpRequestFactory.createSignUpRequest;
 import static apiserver.apiserver.factory.entity.MemberFactory.createMember;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
