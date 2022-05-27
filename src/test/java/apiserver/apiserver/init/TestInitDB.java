@@ -1,8 +1,10 @@
 package apiserver.apiserver.init;
 
+import apiserver.apiserver.entity.category.Category;
 import apiserver.apiserver.entity.member.Member;
 import apiserver.apiserver.entity.member.Role;
 import apiserver.apiserver.entity.member.RoleType;
+import apiserver.apiserver.entity.repository.category.CategoryRepository;
 import apiserver.apiserver.exception.RoleNotFoundException;
 import apiserver.apiserver.entity.repository.member.MemberRepository;
 import apiserver.apiserver.entity.repository.role.RoleRepository;
@@ -25,6 +27,9 @@ public class TestInitDB {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    CategoryRepository categoryRepository;
 
     private String adminEmail = "admin@admin.com";
     private String member1Email = "member1@member.com";
@@ -55,11 +60,18 @@ public class TestInitDB {
         );
     }
 
+    private void initCategory() {
+        Category category1 = new Category("category1", null);
+        Category category2 = new Category("category2", category1);
+        categoryRepository.saveAll(List.of(category1, category2));
+    }
+
     @Transactional
     public void initDB() {
         initRole();
         initTestAdmin();
         initTestMember();
+        initCategory();
     }
 
     public String getAdminEmail() {
