@@ -1,6 +1,7 @@
 package apiserver.apiserver.service.member;
 
 import apiserver.apiserver.dto.member.MemberDto;
+import apiserver.apiserver.entity.member.Member;
 import apiserver.apiserver.exception.MemberNotFoundException;
 import apiserver.apiserver.entity.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class MemberService {
 
     @Transactional
     public void delete(Long id) {
-        if(notExistsMember(id)) throw new MemberNotFoundException();
-        memberRepository.deleteById(id);
+        Member member = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
+        memberRepository.delete(member);
     }
 }

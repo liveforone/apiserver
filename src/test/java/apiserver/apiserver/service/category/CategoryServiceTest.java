@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static apiserver.apiserver.factory.dto.CategoryCreateRequestFactory.createCategoryCreateRequest;
@@ -60,19 +61,19 @@ class CategoryServiceTest {
     @Test
     void deleteTest() {
         // given
-        given(categoryRepository.existsById(anyLong())).willReturn(true);
+        given(categoryRepository.findById(anyLong())).willReturn(Optional.of(CategoryFactory.createCategory()));
 
         // when
         categoryService.delete(1L);
 
         // then
-        verify(categoryRepository).deleteById(anyLong());
+        verify(categoryRepository).delete(any());
     }
 
     @Test
     void deleteExceptionByCategoryNotFoundTest() {
         // given
-        given(categoryRepository.existsById(anyLong())).willReturn(false);
+        given(categoryRepository.findById(anyLong())).willReturn(Optional.ofNullable(null));
 
         // when, then
         assertThatThrownBy(() -> categoryService.delete(1L)).isInstanceOf(CategoryNotFoundException.class);

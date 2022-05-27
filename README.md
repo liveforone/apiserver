@@ -240,3 +240,23 @@ java.lang.indexoutofboundsexception: index 0 out of bounds for length 0
 이때는 if문으로 해당 객체의 .size() 가 0이 아닐경우에 동작하도록
 바꾸어주면 된다.
 </pre>
+
+<h3>카테고리 삭제시 select 쿼리 두번나감</h3>
+<pre>
+두 개의 SELECT 쿼리의 WHERE 문 조건을 보아하니, 유사한 동작을 수행하고 있습니다.
+단지, 첫번째 쿼리는 count(*)로 조회하고, 두번째 쿼리는 컬럼 전체를 조회하는 것이었습니다.
+CategoryRepository.exsitsById를 호출하여 카테고리가 있는지 확인한 뒤에,
+CategoryRepository.deleteById를 호출하여 해당 카테고리 id 값을 통해 카테고리 삭제를 수행하는 코드입니다.
+SELECT count(*) 쿼리는 existsById에 의해서 호출되는 쿼리일 것입니다.
+이 쿼리로 인해 카테고리가 있는지 확인했으니,
+그 다음으로는 분명 deleteById에 의해서 단일한 DELETE FROM WHERE category_id = ? 쿼리가 하나 전송될 것이라고 여겼습니다.
+하지만 그 사이에서 또 다른 SELECT 쿼리가 일어나고 있던 것입니다.
+deleteById는 내부적으로 findById를 수행한 뒤, delete에 조회된 결과를 인자로 넘겨주고 있었습니다.
+단일한 DELETE 쿼리 하나만 생성될 것이라는 기대와는 달리, findById를 이용한 조회 작업이 함께 수행되고 있던 것입니다.
+삭제해야할 데이터가 없는 경우 EmptyResultDataAccessException 예외가 발생하는 것은 알았지만, 
+데이터베이스에서 DELETE 쿼리의 결과로 해당 예외가 발생하는 줄 알았던 것이지, 
+그 전에 SELECT 쿼리로 미리 확인하는 줄은 몰랐던 것입니다.
+findById는 모든 컬럼도 같이 조회하기에, exists로 존재 여부만 가볍게 확인하고자 하였는데, 
+오히려 의미없는 하나의 쿼리를 더 생성하고 있었습니다.
+따라서 MemberServiceTest와 CategoryServiceTest를 수정했습니다.
+</pre>
