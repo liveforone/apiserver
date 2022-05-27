@@ -231,3 +231,12 @@ https://kukekyakya.tistory.com/540?category=1025994
 방법은 바로 AutoConfigureTestDatabase를 덮어써서 해당 설정이 동작하지 않게 바꿔버리면 된다.
 <mark><u>@AutoConfigureTestDatabase(replace = Replace.NONE)</u></mark>
 </pre>
+
+<h3>get(0) 에러</h3>
+<pre>
+get(0)으로 넘길때
+java.lang.indexoutofboundsexception: index 0 out of bounds for length 0
+위의 에러가 발생한다.
+이때는 if문으로 해당 객체의 .size() 가 0이 아닐경우에 동작하도록
+바꾸어주면 된다.
+</pre>
