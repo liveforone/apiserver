@@ -1,7 +1,7 @@
 package apiserver.apiserver.config.security;
 
 import apiserver.apiserver.entity.member.Member;
-import apiserver.apiserver.entity.repository.member.MemberRepository;
+import apiserver.apiserver.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public CustomUserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        Member member = memberRepository.findById(Long.valueOf(userId))
+        Member member = memberRepository.findWithRolesById(Long.valueOf(userId))
                 .orElseGet(() -> new Member(null, null, null, null, List.of()));
         return new CustomUserDetails(
                 String.valueOf(member.getId()),

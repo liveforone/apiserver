@@ -3,7 +3,7 @@ package apiserver.apiserver.service.category;
 import apiserver.apiserver.dto.category.CategoryCreateRequest;
 import apiserver.apiserver.dto.category.CategoryDto;
 import apiserver.apiserver.entity.category.Category;
-import apiserver.apiserver.entity.repository.category.CategoryRepository;
+import apiserver.apiserver.repository.category.CategoryRepository;
 import apiserver.apiserver.exception.CategoryNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

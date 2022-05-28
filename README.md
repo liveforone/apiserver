@@ -260,3 +260,18 @@ findById는 모든 컬럼도 같이 조회하기에, exists로 존재 여부만 
 오히려 의미없는 하나의 쿼리를 더 생성하고 있었습니다.
 따라서 MemberServiceTest와 CategoryServiceTest를 수정했습니다.
 </pre>
+
+<h3>n+1문제 해결</h3>
+<pre>
+우리는 요청을 전송할 때, Authorization 헤더에 액세스 토큰을 함께 보내주고 있습니다.
+그 과정에서 사용자를 조회하고, Member와 Role의 다대다 관계 사이의 브릿지 테이블로 작성된, 
+Member와 @OneToMany 관계인 MemberRole을 조회하여 사용자의 권한 등급을 확인합니다.
+그렇다면 우리가 기대하는 쿼리는 분명, Member 조회와 MemberRole 조회 두 개의 쿼리가 나갈 것이라고 기대할 수 있습니다.
+하지만 실제 쿼리 로그를 살펴보면, 총 네개의 쿼리가 수행되고 있습니다.
+1. Member를 조회합니다.
+2. Member와 @OneToMany 관계인 MemberRole을 조회합니다. (조회한 사용자는 두 개의 권한을 가지고 있습니다.)
+3. 첫번째 MemberRole의 실제 권한 이름을 확인하기 위해, Role을 다시 조회합니다.
+4. 두번째 MemberRole의 실제 권한 이름을 확인하기 위해, Role을 다시 조회합니다.
+해당 문제는  CustomUserDetailsService 의 loadUserByUsername()에서 발생합니다.
+이를 Member에 entitygraph로 해결했습니다.
+</pre>

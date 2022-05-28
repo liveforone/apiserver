@@ -3,7 +3,7 @@ package apiserver.apiserver.service.member;
 import apiserver.apiserver.dto.member.MemberDto;
 import apiserver.apiserver.entity.member.Member;
 import apiserver.apiserver.exception.MemberNotFoundException;
-import apiserver.apiserver.entity.repository.member.MemberRepository;
+import apiserver.apiserver.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

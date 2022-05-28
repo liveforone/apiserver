@@ -1,7 +1,6 @@
 package apiserver.apiserver.repository.category;
 
 import apiserver.apiserver.entity.category.Category;
-import apiserver.apiserver.entity.repository.category.CategoryRepository;
 import apiserver.apiserver.exception.CategoryNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

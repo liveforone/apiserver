@@ -13,6 +13,13 @@ import java.util.stream.Collectors;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NamedEntityGraph(
+        name = "Member.roles",
+        //attributeNodes에는 함께 조회해야하는 엔티티의 필드 명을 적어줍니다.
+        attributeNodes = @NamedAttributeNode(value = "roles", subgraph = "Member.roles.role"),
+        //서브 그래프를 이용하면, 연관 엔티티의 연관 엔티티까지 함께 조회할 수 있습니다.
+        subgraphs = @NamedSubgraph(name = "Member.roles.role", attributeNodes = @NamedAttributeNode("role"))
+)
 public class Member extends EntityDate {
 
     @Id

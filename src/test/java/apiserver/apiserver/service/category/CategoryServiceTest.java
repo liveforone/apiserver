@@ -2,7 +2,7 @@ package apiserver.apiserver.service.category;
 
 import apiserver.apiserver.dto.category.CategoryCreateRequest;
 import apiserver.apiserver.dto.category.CategoryDto;
-import apiserver.apiserver.entity.repository.category.CategoryRepository;
+import apiserver.apiserver.repository.category.CategoryRepository;
 import apiserver.apiserver.exception.CategoryNotFoundException;
 import apiserver.apiserver.factory.entity.CategoryFactory;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static apiserver.apiserver.factory.dto.CategoryCreateRequestFactory.createCategoryCreateRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

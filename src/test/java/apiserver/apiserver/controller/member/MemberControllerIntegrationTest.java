@@ -5,7 +5,7 @@ import apiserver.apiserver.dto.sign.SignInResponse;
 import apiserver.apiserver.entity.member.Member;
 import apiserver.apiserver.exception.MemberNotFoundException;
 import apiserver.apiserver.init.TestInitDB;
-import apiserver.apiserver.entity.repository.member.MemberRepository;
+import apiserver.apiserver.repository.member.MemberRepository;
 import apiserver.apiserver.service.sign.SignService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

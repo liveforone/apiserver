@@ -1,7 +1,7 @@
 package apiserver.apiserver.dto.category;
 
 import apiserver.apiserver.entity.category.Category;
-import apiserver.apiserver.entity.repository.category.CategoryRepository;
+import apiserver.apiserver.repository.category.CategoryRepository;
 import apiserver.apiserver.exception.CategoryNotFoundException;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

@@ -1,4 +1,4 @@
-package apiserver.apiserver.entity.repository.category;
+package apiserver.apiserver.repository.category;
 
 import apiserver.apiserver.entity.category.Category;
 import org.springframework.data.jpa.repository.JpaRepository;

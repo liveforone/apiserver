@@ -3,7 +3,7 @@ package apiserver.apiserver.service.member;
 import apiserver.apiserver.dto.member.MemberDto;
 import apiserver.apiserver.entity.member.Member;
 import apiserver.apiserver.exception.MemberNotFoundException;
-import apiserver.apiserver.entity.repository.member.MemberRepository;
+import apiserver.apiserver.repository.member.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

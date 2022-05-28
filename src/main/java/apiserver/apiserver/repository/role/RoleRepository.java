@@ -1,4 +1,4 @@
-package apiserver.apiserver.entity.repository.role;
+package apiserver.apiserver.repository.role;
 
 import apiserver.apiserver.entity.member.Role;
 import apiserver.apiserver.entity.member.RoleType;
