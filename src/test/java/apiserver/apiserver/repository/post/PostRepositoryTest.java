@@ -143,6 +143,16 @@ class PostRepositoryTest {
         assertThat(result.size()).isZero();
     }
 
+    @Test
+    void findByIdWithMemberTest() {
+        Post post = postRepository.save(createPost(member, category));
+
+        Post foundPost = postRepository.findByIdWithMember(post.getId()).orElseThrow(PostNotFoundException::new);
+
+        Member foundMember = foundPost.getMember();
+        assertThat(foundMember.getEmail()).isEqualTo(member.getEmail());
+    }
+
     void clear() {
         em.flush();
         em.clear();

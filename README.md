@@ -275,3 +275,11 @@ Member와 @OneToMany 관계인 MemberRole을 조회하여 사용자의 권한 �
 해당 문제는  CustomUserDetailsService 의 loadUserByUsername()에서 발생합니다.
 이를 Member에 entitygraph로 해결했습니다.
 </pre>
+
+<h3>jpql error</h3>
+<pre>
+@Query("select p from Post p join fetch p.member where p.id = :id")
+Optional&lt;Post&gt; findByIdWithMember(@Param("id") Long id); 처럼 jpql로 쿼리문을 작성할때
+@Param("값")을 넣어주어야 테스트시 에러가 발생하지 않는다.
+String email 이라면 @Param("email") 을 해주면 된다.
+</pre>

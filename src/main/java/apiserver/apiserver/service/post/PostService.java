@@ -2,8 +2,10 @@ package apiserver.apiserver.service.post;
 
 import apiserver.apiserver.dto.post.PostCreateRequest;
 import apiserver.apiserver.dto.post.PostCreateResponse;
+import apiserver.apiserver.dto.post.PostDto;
 import apiserver.apiserver.entity.post.Image;
 import apiserver.apiserver.entity.post.Post;
+import apiserver.apiserver.exception.PostNotFoundException;
 import apiserver.apiserver.repository.category.CategoryRepository;
 import apiserver.apiserver.repository.member.MemberRepository;
 import apiserver.apiserver.repository.post.PostRepository;
@@ -30,6 +32,10 @@ public class PostService {
         IntStream.range(0, images.size()).forEach(i -> fileService.upload(fileImages.get(i), images.get(i).getUniqueName()));
     }
 
+    private void deleteImages(List<Image> images) {
+        images.stream().forEach(i -> fileService.delete(i.getUniqueName()));
+    }
+
     @Transactional
     public PostCreateResponse create(PostCreateRequest req) {
         Post post = postRepository.save(
@@ -42,4 +48,17 @@ public class PostService {
         uploadImages(post.getImages(), req.getImages());
         return new PostCreateResponse(post.getId());
     }
+
+    public PostDto read(Long id) {
+        return PostDto.toDto(postRepository.findById(id).orElseThrow(PostNotFoundException::new));
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
+        deleteImages(post.getImages());
+        postRepository.delete(post);
+    }
+
+
 }

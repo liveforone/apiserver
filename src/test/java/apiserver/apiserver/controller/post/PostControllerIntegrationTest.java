@@ -117,4 +117,15 @@ public class PostControllerIntegrationTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/exception/entry-point"));
     }
+
+    @Test
+    void readTest() throws Exception {
+        // given
+        Post post = postRepository.save(createPost(member, category));
+
+        // when, then
+        mockMvc.perform(
+                        get("/api/posts/{id}", post.getId()))
+                .andExpect(status().isOk());
+    }
 }

@@ -1,8 +1,11 @@
 package apiserver.apiserver.service.post;
 
 import apiserver.apiserver.dto.post.PostCreateRequest;
+import apiserver.apiserver.dto.post.PostDto;
+import apiserver.apiserver.entity.post.Post;
 import apiserver.apiserver.exception.CategoryNotFoundException;
 import apiserver.apiserver.exception.MemberNotFoundException;
+import apiserver.apiserver.exception.PostNotFoundException;
 import apiserver.apiserver.exception.UnsupportedImageFormatException;
 import apiserver.apiserver.repository.category.CategoryRepository;
 import apiserver.apiserver.repository.member.MemberRepository;
@@ -27,6 +30,7 @@ import static apiserver.apiserver.factory.entity.ImageFactory.createImage;
 import static apiserver.apiserver.factory.entity.MemberFactory.createMember;
 import static apiserver.apiserver.factory.entity.PostFactory.createPostWithImages;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -98,4 +102,23 @@ class PostServiceTest {
         assertThatThrownBy(() -> postService.create(req)).isInstanceOf(UnsupportedImageFormatException.class);
     }
 
+    @Test
+    void readTest() {
+        Post post = createPostWithImages(List.of(createImage(), createImage()));
+        given(postRepository.findById(anyLong())).willReturn(Optional.of(post));
+
+        PostDto postDto = postService.read(1L);
+
+        assertThat(postDto.getTitle()).isEqualTo(post.getTitle());
+        assertThat(postDto.getImages().size()).isEqualTo(post.getImages().size());
+    }
+
+    @Test
+    void readExceptionByPostNotFoundTest() {
+        // given
+        given(postRepository.findById(anyLong())).willReturn(Optional.ofNullable(null));
+
+        // when, then
+        assertThatThrownBy(() -> postService.read(1L)).isInstanceOf(PostNotFoundException.class);
+    }
 }
